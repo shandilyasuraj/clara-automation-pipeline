@@ -1,0 +1,19 @@
+{
+  "name": "Pipeline B: Onboarding to v2 Agent",
+  "nodes": [
+    { "parameters": {}, "name": "Manual Trigger", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [250, 300] },
+    { "parameters": { "filePath": "=/data/transcripts/{{$json.account_id}}_onboarding.txt" }, "name": "Read Onboarding Notes", "type": "n8n-nodes-base.readWriteFile", "typeVersion": 1, "position": [450, 200] },
+    { "parameters": { "filePath": "=/outputs/accounts/{{$json.account_id}}/v1/memo.json" }, "name": "Read v1 Memo", "type": "n8n-nodes-base.readWriteFile", "typeVersion": 1, "position": [450, 400] },
+    { "parameters": { "prompt": "Diff v1 memo with new notes. Resolve unknowns. Output v2 memo and changelog array.", "model": "gemini-1.5-flash" }, "name": "LLM: Diff & Update to v2", "type": "n8n-nodes-base.httpRequest", "typeVersion": 1, "position": [700, 300] },
+    { "parameters": { "prompt": "Generate v2 Retell Agent Spec...", "model": "gemini-1.5-flash" }, "name": "LLM: Generate v2 Spec", "type": "n8n-nodes-base.httpRequest", "typeVersion": 1, "position": [900, 300] },
+    { "parameters": { "operation": "write", "filePath": "=/outputs/accounts/{{$json.account_id}}/v2/memo.json" }, "name": "Save v2 Output", "type": "n8n-nodes-base.readWriteFile", "typeVersion": 1, "position": [1100, 200] },
+    { "parameters": { "operation": "write", "filePath": "=/outputs/accounts/{{$json.account_id}}/changelog.md" }, "name": "Save Changelog", "type": "n8n-nodes-base.readWriteFile", "typeVersion": 1, "position": [1100, 400] }
+  ],
+  "connections": {
+    "Manual Trigger": { "main": [ [ { "node": "Read Onboarding Notes", "type": "main", "index": 0 }, { "node": "Read v1 Memo", "type": "main", "index": 0 } ] ] },
+    "Read Onboarding Notes": { "main": [ [ { "node": "LLM: Diff & Update to v2", "type": "main", "index": 0 } ] ] },
+    "Read v1 Memo": { "main": [ [ { "node": "LLM: Diff & Update to v2", "type": "main", "index": 0 } ] ] },
+    "LLM: Diff & Update to v2": { "main": [ [ { "node": "LLM: Generate v2 Spec", "type": "main", "index": 0 } ] ] },
+    "LLM: Generate v2 Spec": { "main": [ [ { "node": "Save v2 Output", "type": "main", "index": 0 }, { "node": "Save Changelog", "type": "main", "index": 0 } ] ] }
+  }
+}

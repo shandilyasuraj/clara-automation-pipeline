@@ -1,0 +1,39 @@
+{
+  "account_id": "bens_electric",
+  "company_name": "Ben's Electric Solutions",
+  "business_hours": {
+    "days": "Monday - Friday",
+    "start": "8:00 AM",
+    "end": "5:00 PM",
+    "timezone": "EST"
+  },
+  "services_supported": [
+    "Electrical wiring",
+    "Panel upgrades",
+    "Lighting",
+    "Generator installation"
+  ],
+  "emergency_definition": [
+    "Sparking",
+    "Complete power loss",
+    "Smell of burning wires",
+    "Medical equipment power failure"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "On-Call Technician Phone Tree",
+    "fallback": "Dispatch Service (External)"
+  },
+  "non_emergency_routing_rules": "Log details and inform caller of a next-business-day callback.",
+  "call_transfer_rules": {
+    "timeouts": "30 seconds",
+    "retries": "1",
+    "what_to_say_if_fails": "I apologize, but all our technicians are currently assisting other customers. I have flagged this as urgent and dispatch will call you back within 15 minutes."
+  },
+  "integration_constraints": [
+    "Do not log residential lighting quotes into ServiceTrade."
+  ],
+  "after_hours_flow_summary": "Confirm emergency. Collect name, number, address. Attempt transfer to Phone Tree. If fail, transfer to Dispatch.",
+  "office_hours_flow_summary": "Greet, ask purpose, transfer to office line. Fallback to voicemail script.",
+  "questions_or_unknowns": [],
+  "notes": "Onboarding completed. Timezone and fallback protocols finalized."
+}

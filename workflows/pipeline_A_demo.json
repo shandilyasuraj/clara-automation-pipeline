@@ -1,0 +1,16 @@
+{
+  "name": "Pipeline A: Demo to v1 Agent",
+  "nodes": [
+    { "parameters": {}, "name": "Manual Trigger", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [250, 300] },
+    { "parameters": { "filePath": "=/data/transcripts/{{$json.account_id}}_demo.txt" }, "name": "Read Demo Transcript", "type": "n8n-nodes-base.readWriteFile", "typeVersion": 1, "position": [450, 300] },
+    { "parameters": { "prompt": "Extract account data using the strict schema...", "model": "gemini-1.5-flash" }, "name": "LLM: Extract v1 Memo", "type": "n8n-nodes-base.httpRequest", "typeVersion": 1, "position": [650, 300] },
+    { "parameters": { "prompt": "Generate Retell Agent Spec based on memo...", "model": "gemini-1.5-flash" }, "name": "LLM: Generate v1 Spec", "type": "n8n-nodes-base.httpRequest", "typeVersion": 1, "position": [850, 300] },
+    { "parameters": { "operation": "write", "filePath": "=/outputs/accounts/{{$json.account_id}}/v1/memo.json" }, "name": "Save v1 Output", "type": "n8n-nodes-base.readWriteFile", "typeVersion": 1, "position": [1050, 300] }
+  ],
+  "connections": {
+    "Manual Trigger": { "main": [ [ { "node": "Read Demo Transcript", "type": "main", "index": 0 } ] ] },
+    "Read Demo Transcript": { "main": [ [ { "node": "LLM: Extract v1 Memo", "type": "main", "index": 0 } ] ] },
+    "LLM: Extract v1 Memo": { "main": [ [ { "node": "LLM: Generate v1 Spec", "type": "main", "index": 0 } ] ] },
+    "LLM: Generate v1 Spec": { "main": [ [ { "node": "Save v1 Output", "type": "main", "index": 0 } ] ] }
+  }
+}

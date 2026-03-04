@@ -1,0 +1,35 @@
+{
+  "account_id": "bens_electric",
+  "company_name": "Ben's Electric Solutions",
+  "business_hours": {
+    "days": "Monday - Friday",
+    "start": "8:00 AM",
+    "end": "5:00 PM",
+    "timezone": null
+  },
+  "services_supported": [
+    "Electrical wiring",
+    "Panel upgrades",
+    "Lighting"
+  ],
+  "emergency_definition": [
+    "Sparking",
+    "Complete power loss",
+    "Smell of burning wires"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "Ben's Cell",
+    "fallback": null
+  },
+  "non_emergency_routing_rules": "Take a message",
+  "call_transfer_rules": null,
+  "integration_constraints": [],
+  "after_hours_flow_summary": "Identify if emergency. If yes, call Ben.",
+  "office_hours_flow_summary": "Answer calls and route to front desk.",
+  "questions_or_unknowns": [
+    "What is the operational timezone?",
+    "What is the fallback if Ben does not answer an emergency call?",
+    "What are the timeout seconds for call transfers?"
+  ],
+  "notes": "Demo Call: Client interested in after-hours emergency routing mostly."
+}
